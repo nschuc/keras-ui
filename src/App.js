@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'tachyons';
 import './App.css';
 
-import * as graph from './pretty.json';
+import * as graph from './vqa.json';
 import Graph from './components/Graph';
 
 class App extends Component {
