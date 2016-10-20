@@ -6,13 +6,10 @@
     "react-scripts": "0.6.1"
   },
   "dependencies": {
-    "d3-color": "^1.0.1",
-    "d3-force": "^1.0.3",
-    "d3-voronoi": "^1.0.2",
     "dagre": "^0.7.4",
-    "poisson-disc-sampler": "^1.1.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "react-draggable": "^2.2.2",
     "react-redux": "^4.4.5",
     "redux": "^3.6.0",
     "tachyons": "^4.5.3"
