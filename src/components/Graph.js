@@ -1,28 +1,48 @@
 import React, { Component } from 'react'
-import ReactDom from 'react-dom'
+import * as dagre from 'dagre'
+
 import './Graph.css'
 import Layer from './Layer'
 import Link from './Link'
-import * as dagre from 'dagre'
+
 
 export default class Graph extends Component {
 
   constructor(props) {
-    super(props);
-    this.state = { initialized: false }
+    super(props)
+    this.graph = this.buildDirectedGraph(this.props.graph.config.layers)
+    this.state = { 
+      initialized: false
+    }
   }
+
+  // Keep track of layer sizes so we can properly layout dag
+  setLayerSize = (ref, name) => {
+    if(ref) {
+      this.graph.node(name).width = ref.clientWidth
+      this.graph.node(name).height = ref.clientHeight
+    }
+  }
+
+  // Track layer dragging to re-render lines in correct places
+  onDrag = (name, data) => {
+    this.graph.node(name).dx = data.x
+    this.graph.node(name).dy = data.y
+    this.forceUpdate()
+  }
+
 
 	buildDirectedGraph = (layers) => {
 		// Create a new directed graph 
-		var g = new dagre.graphlib.Graph();
+		var g = new dagre.graphlib.Graph()
 
 		// Set an object for the graph label
     g.setGraph({
       rankdir: 'LR',
       nodesep: 100,
-      marginx: 100,
-      marginy: 100
-    });
+      marginx: 250,
+      marginy: 250
+    })
 
 		// Generate labels for edges
     g.setDefaultEdgeLabel((v, w) => 
