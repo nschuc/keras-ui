@@ -50,17 +50,18 @@ export default class Graph extends Component {
           return {
             label: v + '__' + w 
           }
-        });
+        })
 
 		// Add all nodes first
     layers.forEach((layer) => {
-      let w = 144, h = 100
-      if(this.refs[layer.name]) {
-        const element = ReactDom.findDOMNode(this.refs[layer.name])
-        w = element.clientWidth
-        h = element.clientHeight
-      }
-      g.setNode(layer.name, { layer: layer, width: w, height: h });
+      let width = 100, height= 100
+      g.setNode(layer.name, { 
+        layer, 
+        width, 
+        height,
+        dx: 0,
+        dy: 0
+      })
     })
 
     // Add all edges
@@ -68,64 +69,46 @@ export default class Graph extends Component {
       layer.inbound_nodes.forEach( inbound => {
 				const source = inbound[0][0]
 				const target = layer.name
-        g.setEdge(source, target);
+        g.setEdge(source, target)
       })
     })
 
-    return g;
+    return g
 	}
 
   componentDidMount() {
+    dagre.layout(this.graph)
     this.setState({initialized: true})
   }
 
-	buildElements = () => {
-		const layers = this.props.graph.config.layers
-		const linkElements = []
-		const layerElements = []
-    const g = this.buildDirectedGraph(layers)
-    dagre.layout(g)
-
-    g.nodes().forEach(function(v) {
-      const { x, y, width, height, layer } = g.node(v)
-
-      let component = {}
-      if(layer.class_name === 'Sequential') {
-        const props = {
-          name: layer.name,
-          class_name: layer.class_name,
-          config: {
-            class_name: layer.class_name,
-            layers: [],
-            input_layers: layer.inbound_nodes
-          }
-        }
-        component=<Layer 
-              ref={v}
-              key={v} x={x} y={y}
-              width={width} height={height}
-              {...props} />
-      }
-      else {
-        component=<Layer 
-              ref={v}
-              key={v} x={x} y={y}
-              width={width} height={height}
-              { ...layer } />
-      }
-      layerElements.push(component)
-    });
-    g.edges().forEach(function(e) {
-      const edge = g.edge(e)
-      linkElements.push(<Link key={edge.label} edge={edge} />)
-    });
-
-		this.layerElements = layerElements
-    this.linkElements = linkElements
-	}
-
 	render() {
-    this.buildElements()
+    const layerElements = this.graph.nodes().map((v) => {
+      const { x, y, width, height, layer } = this.graph.node(v)
+
+      return (<Layer 
+              key={v} x={x} y={y}
+              width={width} height={height}
+              onDrag={this.onDrag}
+              setLayerSize={this.setLayerSize}
+              { ...layer } />
+            )
+    })
+
+    let linkElements = []
+
+    if(this.state.initialized) {
+      linkElements = this.graph.edges().map((e) => {
+        const { dx: dx1, dy:dy1 } = this.graph.node(e.v)
+        const { dx: dx2, dy:dy2 } = this.graph.node(e.w)
+        const { label, points } = this.graph.edge(e)
+        const [ u,, v ] = points
+        return (
+          <Link 
+            key={label} 
+            x1={u.x + dx1} y1={u.y + dy1} x2={v.x + dx2 } y2={v.y + dy2} />
+        )
+      })
+    }
 
     const styles = {
       visibility: this.state.initialized ? '' : 'hidden'

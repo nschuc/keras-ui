@@ -6,13 +6,12 @@ export default class Layer extends Component {
   propTypes: {
     onDrag: PropTypes.func
   }
-
+  
   render() {
     const {
       name, config,
       class_name
-    } = this.props;
-
+    } = this.props
     const layerProperties = Object.keys(config).map((key) => {
       if(config[key]) {
         return (
@@ -22,6 +21,7 @@ export default class Layer extends Component {
           </dl>
           )
       }
+      return undefined
     })
 
     const styles = {
@@ -33,9 +33,10 @@ export default class Layer extends Component {
     }
 
     return (
-      <Draggable>
-				<div className="bg-white dib pointer" style={styles}>
-					<div className="keras-layer br3 ba b--black-10">
+      <Draggable onDrag={(e, data) => this.props.onDrag(name, data)}>
+        <div ref={(ref) => this.props.setLayerSize(ref, name) }
+          className="dib pointer" style={styles}>
+					<div className="keras-layer bg-white br3 ba b--black-10">
 						<div className="pv2 ph3">
 							<h4 className="f6 ttu tracked">{class_name}</h4>
 						</div>
