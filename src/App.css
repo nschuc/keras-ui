@@ -1,10 +1,15 @@
 .App {
-  text-align: center;
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  cursor: default;
+  user-select:none;
+  color: transparent;
+	opacity: 0.5;
+  text-shadow: 0px 2px 3px rgba(255,255,255,0.5);
+  -webkit-background-clip: text;
+     -moz-background-clip: text;
+          background-clip: text;
 }
 
 .App-header {

@@ -134,12 +134,12 @@ export default class Graph extends Component {
     return (
       <div id="graph" style={styles}>
         <div>
-          {this.layerElements}
+          {layerElements}
         </div>
-        <svg>
-          {this.linkElements}
+        <svg className="bg-near-white">
+          {linkElements}
         </svg>
       </div>
-    );
+    )
 	}
 }
