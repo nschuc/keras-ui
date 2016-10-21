@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as dagre from 'dagre'
 
 import './Graph.css'
-import Layer from './Layer'
+import LayerContainer from './LayerContainer'
 import Link from './Link'
 
 
@@ -85,8 +85,9 @@ export default class Graph extends Component {
     const layerElements = this.graph.nodes().map((v) => {
       const { x, y, width, height, layer } = this.graph.node(v)
 
-      return (<Layer 
+      return (<LayerContainer
               key={v} x={x} y={y}
+              class_name="InputLayer"
               width={width} height={height}
               onDrag={this.onDrag}
               setLayerSize={this.setLayerSize}

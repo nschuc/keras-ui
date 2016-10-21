@@ -1,8 +1,7 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import Layers from './Layers.js'
 
 export default class LayerShelf extends Component {
-
   render() {
-  
   }
 }
