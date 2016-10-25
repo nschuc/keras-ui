@@ -40,8 +40,8 @@ export default class Graph extends Component {
     g.setGraph({
       rankdir: 'LR',
       nodesep: 100,
-      marginx: 250,
-      marginy: 250
+      marginx: 100,
+      marginy: 100
     })
 
 		// Generate labels for edges
@@ -116,11 +116,11 @@ export default class Graph extends Component {
     }
 
     return (
-      <div id="graph" style={styles}>
-        <div>
+      <div >
+        <div className="absolute">
           {layerElements}
         </div>
-        <svg className="bg-near-white">
+        <svg className="absolute w-100 h-100">
           {linkElements}
         </svg>
       </div>
