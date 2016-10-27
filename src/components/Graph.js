@@ -49,7 +49,7 @@ class Graph extends Component {
 
 	buildDirectedGraph = (layers) => {
 		// Create a new directed graph 
-		var g = new dagre.graphlib.Graph()
+		var g = this.graph || new dagre.graphlib.Graph()
 
 		// Set an object for the graph label
     g.setGraph({
@@ -69,11 +69,12 @@ class Graph extends Component {
 
 		// Add all nodes first
     layers.forEach((layer) => {
-      let width = 100, height= 100
+      if(g.node(layer.name)) return
+
       g.setNode(layer.name, { 
         layer, 
-        width, 
-        height,
+        width: 100, 
+        height: 50,
         dx: 0,
         dy: 0
       })

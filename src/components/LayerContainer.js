@@ -33,13 +33,20 @@ class LayerContainer extends Component {
       setLayerSize
     } = this.props
 
+    let margins = {}
+    if(!onShelf) {
+      margins = {
+        marginLeft: -width / 2,
+        marginTop: -height / 2,
+      }
+    }
+
     const styles = {
       top: this.props.y,
       left: this.props.x,
-      marginLeft: -width / 2,
-      marginTop: -height / 2,
       cursor: 'pointer',
-      opacity: isDragging ? 0.5 : 1
+      opacity: isDragging ? 0.5 : 1,
+      ...margins
     }
 
 
@@ -48,7 +55,7 @@ class LayerContainer extends Component {
     return (
       connectDragSource(
         <div 
-          ref={(ref) => !onShelf ? setLayerSize(ref, name) : 0 }
+          ref={(ref) => !onShelf && setLayerSize(ref, name) }
           className={`dib pointer z-1 ${shelfOrLayerClass}`} style={styles}>
           <Layer {...this.props}/>
         </div>
