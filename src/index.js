@@ -6,7 +6,6 @@ import reducers from './reducers'
 import App from './App'
 import './index.css'
 
-
 let store = createStore(reducers)
 
 render(

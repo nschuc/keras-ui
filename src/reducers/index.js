@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import graph from './graph'
+import modelReducer from './model'
 
 const reducers = combineReducers({
-  graph
+  model: modelReducer
 })
 
 export default reducers

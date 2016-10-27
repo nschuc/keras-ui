@@ -13,13 +13,14 @@ import LayerShelf from './components/LayerShelf'
 
 class App extends Component {
   render() {
+    const { onAddLayer } = this.props
     return (
-      <div className="App w-100 vh-100">
+      <div className="App w-100 vh-100 overflow-hidden">
         <div className="w-20 h-100 dib">
           <LayerShelf />
         </div>
         <div className="w-80 bg-near-white h-100 dib v-top">
-          <Graph graph={this.props.graph}/>
+          <Graph onAddLayer={onAddLayer} model={this.props.model}/>
           <div className="w-100 v-mid tc">
             <h1 className="App-logo bg-purple v-mid f-headline lh-solid">KerasUI</h1>
           </div>
@@ -31,7 +32,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    graph: state.graph
+    model: state.model
   }
 }
 

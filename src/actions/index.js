@@ -1,5 +1,6 @@
-export const addLayer = () => {
+export const addLayer = (type) => {
   return {
-    type: 'ADD_LAYER'
+    type: 'ADD_LAYER',
+    kerasClass: type
   }
 }

@@ -1,19 +1,34 @@
 import React, { Component } from 'react'
 import * as dagre from 'dagre'
+import { DropTarget } from 'react-dnd'
 
 import './Graph.css'
-import LayerContainer from './LayerContainer'
+import LayerContainer, { ItemTypes } from './LayerContainer'
 import Link from './Link'
 
+ 
+const graphTarget = {
+  drop(props, monitor, component) {
+    const { kerasClass } = monitor.getItem()
+    props.onAddLayer(kerasClass)
+  }
+}
 
-export default class Graph extends Component {
+function collect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  }
+}
+
+class Graph extends Component {
 
   constructor(props) {
     super(props)
-    this.graph = this.buildDirectedGraph(this.props.graph.config.layers)
     this.state = { 
       initialized: false
     }
+    this.graph = this.buildDirectedGraph(props.model.layers)
   }
 
   // Keep track of layer sizes so we can properly layout dag
@@ -81,7 +96,10 @@ export default class Graph extends Component {
     this.setState({initialized: true})
   }
 
+
 	render() {
+    this.graph = this.buildDirectedGraph(this.props.model.layers)
+    dagre.layout(this.graph)
     const layerElements = this.graph.nodes().map((v) => {
       const { x, y, width, height, layer } = this.graph.node(v)
 
@@ -111,19 +129,19 @@ export default class Graph extends Component {
       })
     }
 
-    const styles = {
-      visibility: this.state.initialized ? '' : 'hidden'
-    }
+    const { connectDropTarget } = this.props
 
-    return (
-      <div >
-        <div className="absolute">
+    return connectDropTarget(
+      <div className="w-100 h-100">
+        <div className="w-100 h-100 absolute">
           {layerElements}
         </div>
-        <svg className="absolute w-100 h-100">
+        <svg className="w-100 h-100">
           {linkElements}
         </svg>
       </div>
     )
 	}
 }
+
+export default DropTarget(ItemTypes.LAYER, graphTarget, collect)(Graph);

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Layer from './Layers.js'
 import LayerContainer from './LayerContainer.js'
 
 const layerTypes = [
@@ -12,11 +11,11 @@ const layerTypes = [
 export default class LayerShelf extends Component {
   render() {
     const layers = layerTypes.map(
-      layerType => <LayerContainer key={layerType} class_name={layerType} onShelf {...this.props} />
+      layerType => <LayerContainer key={layerType} kerasClass={layerType} onShelf {...this.props} />
     )
 
     return (
-      <div className="layer-shelf overflow-scroll pa3 h-100 bg-dark-gray tc">
+      <div className="layer-shelf overflow-scroll overflow-x-hidden pa3 h-100 bg-dark-gray tc">
         {layers}
       </div>
     )
