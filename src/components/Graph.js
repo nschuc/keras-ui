@@ -59,16 +59,18 @@ class Graph extends Component {
       marginy: 100
     })
 
-		// Generate labels for edges
+    // Generate labels for edges
     g.setDefaultEdgeLabel((v, w) => 
-        { 
-          return {
-            label: v + '__' + w 
-          }
-        })
+      { 
+        return {
+          label: v + '__' + w 
+        }
+      })
+    console.log(layers)
 
 		// Add all nodes first
-    layers.forEach((layer) => {
+    Object.keys(layers).forEach((name) => {
+      const layer = layers[name]
       if(g.node(layer.name)) return
 
       g.setNode(layer.name, { 
@@ -81,7 +83,8 @@ class Graph extends Component {
     })
 
     // Add all edges
-    layers.forEach((layer) => {
+    Object.keys(layers).forEach((name) => {
+      const layer = layers[name]
       layer.inbound_nodes.forEach( inbound => {
 				const source = inbound[0][0]
 				const target = layer.name
