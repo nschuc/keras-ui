@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import LayerContainer from './LayerContainer.js'
+import ShelfLayerContainer from '../containers/ShelfLayerContainer.js'
 
 const layerTypes = [
   'Dense', 'Activation', 'Dropout', 'SpatialDropout2D', 'SpatialDropout3D', 'Flatten', 'Reshape',
@@ -11,7 +11,7 @@ const layerTypes = [
 export default class LayerShelf extends Component {
   render() {
     const layers = layerTypes.map(
-      layerType => <LayerContainer key={layerType} kerasClass={layerType} onShelf {...this.props} />
+      layerType => <ShelfLayerContainer key={layerType} kerasClass={layerType} {...this.props} />
     )
 
     return (

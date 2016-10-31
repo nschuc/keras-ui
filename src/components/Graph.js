@@ -3,7 +3,7 @@ import * as dagre from 'dagre'
 import { DropTarget } from 'react-dnd'
 
 import './Graph.css'
-import LayerContainer, { ItemTypes } from './LayerContainer'
+import GraphLayerContainer, { ItemTypes } from '../containers/GraphLayerContainer'
 import Link from './Link'
 
  
@@ -14,7 +14,7 @@ const graphTarget = {
   }
 }
 
-function collect(connect, monitor) {
+const collect = (connect, monitor) => {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver()
@@ -25,10 +25,8 @@ class Graph extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { 
-      initialized: false
-    }
     this.graph = this.buildDirectedGraph(props.model.layers)
+    this.state = {}
   }
 
   // Keep track of layer sizes so we can properly layout dag
@@ -40,10 +38,18 @@ class Graph extends Component {
   }
 
   // Track layer dragging to re-render lines in correct places
-  onDrag = (name, data) => {
-    this.graph.node(name).dx = data.x
-    this.graph.node(name).dy = data.y
-    this.forceUpdate()
+  onLayerHover = (dragged, target) => {
+    this.setState({
+      dragged: {
+        fucc: {
+          ...dragged,
+          inbound_nodes: [
+            target.name
+          ],
+          name: 'fucc'
+        }
+      }
+    })
   }
 
 
@@ -66,12 +72,11 @@ class Graph extends Component {
           label: v + '__' + w 
         }
       })
-    console.log(layers)
 
 		// Add all nodes first
     Object.keys(layers).forEach((name) => {
       const layer = layers[name]
-      if(g.node(layer.name)) return
+      if(!layer || g.node(layer.name)) return
 
       g.setNode(layer.name, { 
         layer, 
@@ -85,8 +90,9 @@ class Graph extends Component {
     // Add all edges
     Object.keys(layers).forEach((name) => {
       const layer = layers[name]
+      if(!layer) return
       layer.inbound_nodes.forEach( inbound => {
-				const source = inbound[0][0]
+				const source = inbound
 				const target = layer.name
         g.setEdge(source, target)
       })
@@ -96,31 +102,37 @@ class Graph extends Component {
 	}
 
   componentDidMount() {
-    dagre.layout(this.graph)
     this.setState({initialized: true})
   }
 
-
 	render() {
-    this.graph = this.buildDirectedGraph(this.props.model.layers)
-    dagre.layout(this.graph)
-    const layerElements = this.graph.nodes().map((v) => {
-      const { x, y, width, height, layer } = this.graph.node(v)
+    console.log('graph 1', this.graph)
+    this.graph = this.buildDirectedGraph({
+      ...this.props.model.layers,
+      ...this.state.dragged
+    })
 
-      return (<LayerContainer
+    console.log('graph 2', this.graph)
+    dagre.layout(this.graph)
+
+    console.log('graph 3', this.graph)
+    const layerElements = this.graph.nodes().map((v) => {
+      if(v.length === 1) {
+        console.log('fuck u', v)
+      }
+      const { x, y, width, height, layer } = this.graph.node(v)
+      return (<GraphLayerContainer
               key={v} x={x} y={y}
-              class_name="InputLayer"
               width={width} height={height}
-              onDrag={this.onDrag}
+              onLayerAdd={this.props.onAddLayer}
+              onLayerHover={this.onLayerHover}
               setLayerSize={this.setLayerSize}
               { ...layer } />
             )
     })
 
-    let linkElements = []
-
-    if(this.state.initialized) {
-      linkElements = this.graph.edges().map((e) => {
+    console.log('graph 4', this.graph)
+    const linkElements = this.graph.edges().map((e) => {
         const { dx: dx1, dy:dy1 } = this.graph.node(e.v)
         const { dx: dx2, dy:dy2 } = this.graph.node(e.w)
         const { label, points } = this.graph.edge(e)
@@ -131,7 +143,6 @@ class Graph extends Component {
             x1={u.x + dx1} y1={u.y + dy1} x2={v.x + dx2 } y2={v.y + dy2} />
         )
       })
-    }
 
     const { connectDropTarget } = this.props
 

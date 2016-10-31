@@ -31,15 +31,7 @@ const initialLayers =
         "input_dim": null
       },
       "kerasClass": "Dense",
-      "inbound_nodes": [
-        [
-          [
-            "input_1",
-            0,
-            0
-          ]
-        ]
-      ]
+      "inbound_nodes": ["input_1"]
     },
     "dense_2": {
       "name": "dense_2",
@@ -58,15 +50,7 @@ const initialLayers =
         "input_dim": null
       },
       "kerasClass": "Dense",
-      "inbound_nodes": [
-        [
-          [
-            "dense_1",
-            0,
-            0
-          ]
-        ]
-      ]
+      "inbound_nodes": [ "dense_1" ]
     },
     "dense_3": {
       "name": "dense_3",
@@ -85,15 +69,7 @@ const initialLayers =
         "input_dim": null
       },
       "kerasClass": "Dense",
-      "inbound_nodes": [
-        [
-          [
-            "dense_2",
-            0,
-            0
-          ]
-        ]
-      ]
+      "inbound_nodes": [ "dense_2" ]
     }
   }
 

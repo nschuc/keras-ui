@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import Layer from './Layers'
+import Layer from '../components/Layers'
 import { DragSource } from 'react-dnd'
 
 const ItemTypes = {
@@ -7,9 +7,12 @@ const ItemTypes = {
 }
 
 const layerSource = {
-  beginDrag({kerasClass}) {
+  beginDrag({kerasClass, config, name}) {
     return {
-      kerasClass
+      kerasClass,
+      config: {},
+      name,
+      inbound_nodes: []
     }
   }
 }
@@ -21,42 +24,24 @@ function collect(connect, monitor) {
   }
 }
 
-class LayerContainer extends Component {
+class ShelfLayerContainer extends Component {
   render() {
     const {
-      name, 
       connectDragSource,
       isDragging,
-      onShelf,
-      width,
-      height,
-      setLayerSize
     } = this.props
-
-    let margins = {}
-    if(!onShelf) {
-      margins = {
-        marginLeft: -width / 2,
-        marginTop: -height / 2,
-      }
-    }
 
     const styles = {
       top: this.props.y,
       left: this.props.x,
       cursor: 'pointer',
       opacity: isDragging ? 0.5 : 1,
-      ...margins
     }
-
-
-    const shelfOrLayerClass = onShelf ? 'mt2 w-100' : 'absolute'
 
     return (
       connectDragSource(
         <div 
-          ref={(ref) => !onShelf && setLayerSize(ref, name) }
-          className={`dib pointer z-1 ${shelfOrLayerClass}`} style={styles}>
+          className={`dib pointer z-1 mt2 w-100`} style={styles}>
           <Layer {...this.props}/>
         </div>
       )
@@ -64,10 +49,10 @@ class LayerContainer extends Component {
   }
 }
 
-LayerContainer.propTypes = {
+ShelfLayerContainer.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired
 };
 
-export default DragSource(ItemTypes.LAYER, layerSource, collect)(LayerContainer);
+export default DragSource(ItemTypes.LAYER, layerSource, collect)(ShelfLayerContainer);
 export { ItemTypes }
