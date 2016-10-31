@@ -106,20 +106,14 @@ class Graph extends Component {
   }
 
 	render() {
-    console.log('graph 1', this.graph)
     this.graph = this.buildDirectedGraph({
       ...this.props.model.layers,
       ...this.state.dragged
     })
 
-    console.log('graph 2', this.graph)
     dagre.layout(this.graph)
 
-    console.log('graph 3', this.graph)
     const layerElements = this.graph.nodes().map((v) => {
-      if(v.length === 1) {
-        console.log('fuck u', v)
-      }
       const { x, y, width, height, layer } = this.graph.node(v)
       return (<GraphLayerContainer
               key={v} x={x} y={y}
@@ -131,7 +125,6 @@ class Graph extends Component {
             )
     })
 
-    console.log('graph 4', this.graph)
     const linkElements = this.graph.edges().map((e) => {
         const { dx: dx1, dy:dy1 } = this.graph.node(e.v)
         const { dx: dx2, dy:dy2 } = this.graph.node(e.w)
