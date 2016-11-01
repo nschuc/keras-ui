@@ -13,11 +13,8 @@ const layerTarget = {
   },
 
   drop(props, monitor, component) {
-    const { kerasClass } = monitor.getItem()
-    console.log(`${kerasClass} (after) ${props.kerasClass}`)
     props.onLayerAdd(monitor.getItem(), props)
   }
-
 }
 
 function collect(connect, monitor) {

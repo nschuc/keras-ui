@@ -73,12 +73,6 @@ const initialLayers =
     }
   }
 
-const layerTemplate =  {
-    "config": {
-    },
-    "inbound_nodes": []
-}
-
 const initialModel = {
   configuration: {},
   name: "",
@@ -88,18 +82,17 @@ const initialModel = {
   outputs: []
 }
 
-
-const newLayer = (layers, {type}) => {
+const saveTempLayer = layers => {
   let idx = 1
-  let lcType = type.toLocaleLowerCase()
+  let lcType = layers._temp.kerasClass.toLocaleLowerCase()
   while(layers[lcType + `_${idx}`]) idx++;
   const name = `${lcType}_${idx}`
   return {
-    [name]: {
-      ...layerTemplate,
-      kerasClass: type,
+    [name] : {
+      ...layers._temp,
       name
-    }
+    },
+    _temp: null
   }
 }
 
@@ -108,7 +101,12 @@ const layerReducer = (layers, action) => {
     case 'ADD_LAYER':
       return { 
         ...layers,
-        ...newLayer(layers, action.payload)
+        ...saveTempLayer(layers)
+      }
+    case 'PREVIEW_LAYER':
+      return { 
+        ...layers,
+        ...action.payload
       }
     default:
       return layers
