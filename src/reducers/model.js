@@ -110,11 +110,6 @@ const layerReducer = (layers, action) => {
         ...layers,
         ...newLayer(layers, action.payload)
       }
-    case 'COMPOSE_LAYER':
-      return layers.concat({
-        ...layerTemplate,
-        kerasClass: action.kerasClass
-      })
     default:
       return layers
   }
