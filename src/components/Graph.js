@@ -23,12 +23,12 @@ const collect = (connect, monitor) => {
 
 
 const Graph = props => {
-  const { 
-    nodes, edges, 
-    onLayerAdd, onLayerHover, 
-    setLayerSize,
-    connectDropTarget
-  } = props
+	const { 
+		nodes, edges, 
+		onLayerAdd, onLayerHover, 
+		setLayerSize,
+		connectDropTarget
+	} = props
 
     const layerElements = nodes.map( node => {
       const {  x, y, width, height, layer } = node
@@ -55,16 +55,16 @@ const Graph = props => {
       )
     })
 
-    return connectDropTarget(
-      <div className="w-100 h-100">
-        <div className="w-100 h-100 absolute">
-          {layerElements}
-        </div>
-        <svg className="w-100 h-100">
-          {linkElements}
-        </svg>
-      </div>
-    )
-	}
+	return connectDropTarget(
+		<div className="w-100 h-100">
+			<div className="h-100 absolute">
+				{layerElements}
+			</div>
+			<svg className="w-100 h-100">
+				{linkElements}
+			</svg>
+		</div>
+	)
+}
 
 export default DropTarget(ItemTypes.LAYER, graphTarget, collect)(Graph)

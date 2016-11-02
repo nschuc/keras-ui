@@ -17,7 +17,7 @@ class App extends Component {
         </div>
         <div className="w-80 bg-near-white h-100 dib v-top">
           <GraphContainer />
-          <div className="w-100 v-mid tc">
+          <div className="Logo-Container w-80 v-mid tc">
             <h1 className="App-logo bg-purple v-mid f-headline lh-solid">KerasUI</h1>
           </div>
         </div>

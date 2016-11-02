@@ -1,3 +1,9 @@
+.Logo-Container {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .App-logo {
   cursor: default;
   user-select:none;

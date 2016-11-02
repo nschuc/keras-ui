@@ -98,7 +98,6 @@ class GraphContainer extends Component {
 
 
     const { onLayerAdd, } = this.props
-    console.log("render graphcontainer")
 
     return (
       <Graph 
