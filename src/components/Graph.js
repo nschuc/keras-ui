@@ -30,30 +30,31 @@ const Graph = props => {
 		connectDropTarget
 	} = props
 
-    const layerElements = nodes.map( node => {
-      const {  x, y, width, height, layer } = node
-      return (<GraphLayerContainer
-              key={layer.name} x={x} y={y}
-              width={width} height={height}
-              onLayerAdd={onLayerAdd}
-              onLayerHover={onLayerHover}
-              setLayerSize={setLayerSize}
-              { ...layer } />
-            )
-    })
+	const layerElements = nodes.map( node => {
+    console.log(node)
+		const {  x, y, width, height, layer } = node
+		return (<GraphLayerContainer
+			key={layer.name} x={x} y={y}
+			width={width} height={height}
+			onLayerAdd={onLayerAdd}
+			onLayerHover={onLayerHover}
+			setLayerSize={setLayerSize}
+			{ ...layer } />
+		)
+	})
 
-    const linkElements = edges.map( edge => {
-      const { source, target, properties } = edge
-      const { dx: dx1, dy:dy1 } = source
-      const { dx: dx2, dy:dy2 } = target
-      const { label, points } = properties
-      const [ u,, v ] = points
-      return (
-        <Link 
-          key={label} 
-          x1={u.x + dx1} y1={u.y + dy1} x2={v.x + dx2 } y2={v.y + dy2} />
-      )
-    })
+	const linkElements = edges.map( edge => {
+		const { source, target, properties } = edge
+		const { dx: dx1, dy:dy1 } = source
+		const { dx: dx2, dy:dy2 } = target
+		const { label, points } = properties
+		const [ u,, v ] = points
+		return (
+			<Link 
+				key={label} 
+				x1={u.x + dx1} y1={u.y + dy1} x2={v.x + dx2 } y2={v.y + dy2} />
+		)
+	})
 
 	return connectDropTarget(
 		<div className="w-100 h-100">

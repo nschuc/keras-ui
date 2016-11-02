@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import Layer from '../components/Layers'
 import { DragSource } from 'react-dnd'
+import { getEmptyImage } from 'react-dnd-html5-backend'
 
 const ItemTypes = {
   LAYER: 'layer'
@@ -17,14 +18,22 @@ const layerSource = {
   }
 }
 
-function collect(connect, monitor) {
+const collect = (connect, monitor) => {
   return {
     connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging()
   }
 }
 
 class ShelfLayerContainer extends Component {
+
+	componentDidMount() {
+		this.props.connectDragPreview(getEmptyImage(), {
+			captureDraggingState: true
+		});
+	}
+
   render() {
     const {
       connectDragSource,

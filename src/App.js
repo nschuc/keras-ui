@@ -4,6 +4,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 
 import GraphContainer from './containers/GraphContainer'
 import LayerShelf from './components/LayerShelf'
+import LayerDragPreview from './components/LayerDragPreview'
 
 import 'tachyons'
 import './App.css'
@@ -21,10 +22,11 @@ class App extends Component {
             <h1 className="App-logo bg-purple v-mid f-headline lh-solid">KerasUI</h1>
           </div>
         </div>
+        <LayerDragPreview />
       </div>
     )
   }
 }
-const DragApp = DragDropContext(HTML5Backend)(App);
 
-export default DragApp 
+export default DragDropContext(HTML5Backend)(App);
+ 

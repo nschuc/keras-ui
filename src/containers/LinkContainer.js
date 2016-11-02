@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react'
-import Layer from '../components/Layers'
+import Link from '../components/Link'
 import { DropTarget } from 'react-dnd'
 
 const ItemTypes = {
-  LAYER: 'layer',
-  LINK: 'link'
+  LAYER: 'layer'
 }
 
-const layerTarget = {
+const linkTarget = {
 
   hover(props, monitor, component) {
     props.onLayerHover(monitor.getItem(), props)
@@ -25,7 +24,7 @@ function collect(connect, monitor) {
   }
 }
 
-class GraphLayerContainer extends Component {
+class LinkContainer extends Component {
   render() {
     const {
       name, 
@@ -56,9 +55,8 @@ class GraphLayerContainer extends Component {
   }
 }
 
-GraphLayerContainer.propTypes = {
+LinkContainer.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
 };
 
-export default DropTarget(ItemTypes.LAYER, layerTarget, collect)(GraphLayerContainer);
-export { ItemTypes }
+export default DropTarget(ItemTypes.LAYER, linkTarget, collect)(LinkContainer);
