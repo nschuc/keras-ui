@@ -27,7 +27,6 @@ class GraphContainer extends Component {
   }
 
   componentDidMount() {
-    console.log(this.layerSizes)
     this.forceUpdate()
   }
 

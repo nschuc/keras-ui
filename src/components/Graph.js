@@ -31,7 +31,6 @@ const Graph = props => {
 	} = props
 
 	const layerElements = nodes.map( node => {
-    console.log(node)
 		const {  x, y, width, height, layer } = node
 		return (<GraphLayerContainer
 			key={layer.name} x={x} y={y}
