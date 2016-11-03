@@ -10,16 +10,25 @@ class GraphContainer extends Component {
 
   constructor(props) {
     super(props)
-    this.graph = this.buildDirectedGraph(props.model.layers)
-    this.state = {}
+    this.layerSizes = {}
   }
 
   // Keep track of layer sizes so we can properly layout dag
   setLayerSize = (ref, name) => {
     if(ref) {
-      this.graph.node(name).width = ref.clientWidth
-      this.graph.node(name).height = ref.clientHeight
+      this.layerSizes = {
+        ...this.layerSizes,
+        [name]: {
+          width: ref.clientWidth,
+          height: ref.clientHeight
+        }
+      }
     }
+  }
+
+  componentDidMount() {
+    console.log(this.layerSizes)
+    this.forceUpdate()
   }
 
   onLayerHover = (dragged, target) => {
@@ -54,12 +63,15 @@ class GraphContainer extends Component {
 		// Add all nodes first
     Object.keys(layers).forEach( name => {
       const layer = layers[name]
-      if(!layer || g.node(layer.name)) return
+      if(!layer) return
+
+      const layerSize = this.layerSizes[name]
+      const { width, height } = layerSize || { width: 100, height: 50 }
 
       g.setNode(layer.name, { 
         layer, 
-        width: 100, 
-        height: 50,
+        width: width || 100, 
+        height: height || 50,
         dx: 0,
         dy: 0
       })
