@@ -26,13 +26,8 @@ const PropertyList = ({config}) => {
 const DefaultLayer = ({config, kerasClass}) => {
   config = config || {}
   return (
-    <div className="keras-layer bg-white br3 ba b--black-10">
-      <div className="pv2 ph3">
-        <h4 className="f6 ttu tracked">{kerasClass}</h4>
-      </div>
-      <div className="dn cf">
-        <PropertyList config={config} />
-      </div>
+    <div className="keras-layer bg-white br3 ba b--silver h-100 w-100 dib flex items-center justify-center">
+      <span className="f4 avenir">{kerasClass.slice(0, 1)}</span>
     </div>
   )
 }

@@ -9,8 +9,6 @@ const layerStyles = {
   zIndex: 100,
   left: 0,
   top: 0,
-  width: '100%',
-  height: '100%'
 };
 
 const getItemStyles = (props) => {
@@ -54,7 +52,7 @@ class LayerDragPreview extends Component {
 
     return (
       <div style={layerStyles}>
-        <div className="dib" style={getItemStyles(this.props)}>
+        <div className="dib h3 w3" style={getItemStyles(this.props)}>
 					<Layer {...item} />
         </div>
       </div>
