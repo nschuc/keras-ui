@@ -32,7 +32,6 @@ class GraphLayerContainer extends Component {
       connectDropTarget,
       width,
       height,
-      setLayerSize,
     } = this.props
 
     const styles = {
@@ -47,8 +46,7 @@ class GraphLayerContainer extends Component {
     return (
       connectDropTarget(
         <div 
-          ref={ ref => setLayerSize(ref, name) }
-          className="dib absolute pointer z-1" style={styles}>
+          className="dib absolute pointer z-1 w3 h3" style={styles}>
           <Layer {...this.props}/>
         </div>
       )

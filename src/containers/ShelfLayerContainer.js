@@ -50,7 +50,7 @@ class ShelfLayerContainer extends Component {
     return (
       connectDragSource(
         <div 
-          className={`dib pointer z-1 mt2 w-100`} style={styles}>
+          className={`db pointer z-1 w3 h3 mt2`} style={styles}>
           <Layer {...this.props}/>
         </div>
       )

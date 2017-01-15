@@ -1,4 +1,6 @@
-const initialLayers = 
+import { extendObservable, computed, autorun } from 'mobx';
+
+const initialLayers =
   {
     "input_1": {
       "name": "input_1",
@@ -73,51 +75,23 @@ const initialLayers =
     }
   }
 
-const initialModel = {
-  configuration: {},
-  name: "",
-  kerasClass: 'Model',
-  layers: initialLayers,
-  inputs: [],
-  outputs: []
-}
+class GraphStore {
+  constructor() {
+    extendObservable(this, {
+      name: '',
+      kerasClass: 'Model',
+      layers: initialLayers,
+      inputs: [],
+      outputs: []
+    });
+  }
 
-const saveTempLayer = layers => {
-  let idx = 1
-  let lcType = layers._temp.kerasClass.toLocaleLowerCase()
-  while(layers[lcType + `_${idx}`]) idx++;
-  const name = `${lcType}_${idx}`
-  return {
-    [name] : {
-      ...layers._temp,
-      name
-    },
-    _temp: null
+  addLayer(layer) {
+    this.lanes = ({
+      ...this.lanes,
+      layer
+    })
   }
 }
 
-const layerReducer = (layers, action) => {
-  switch (action.type) {
-    case 'ADD_LAYER':
-      return { 
-        ...layers,
-        ...saveTempLayer(layers)
-      }
-    case 'PREVIEW_LAYER':
-      return { 
-        ...layers,
-        ...action.payload
-      }
-    default:
-      return layers
-  }
-}
-
-const modelReducer = (model = initialModel, action) => {
-  return {
-    ...model,
-    layers: layerReducer(model.layers, action)
-  }
-}
-
-export default modelReducer
+export default new GraphStore();
