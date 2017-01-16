@@ -45,11 +45,8 @@ class GraphContainer extends Component {
   };
 
   addLayer(layer) {
-    console.log(layer);
     this.props.model.addLayer(layer);
   }
-
-  previewLayer(layer) {}
 
   render() {
     this.graph = this.buildDirectedGraph({
@@ -70,16 +67,14 @@ class GraphContainer extends Component {
             properties: this.graph.edge(edge)
           })
       );
-
-    console.log(layerElements)
-
     return (
-      <Graph
-        nodes={layerElements}
-        edges={linkElements}
-        onLayerHover={this.previewLayer}
-        onLayerAdd={layer => this.addLayer(layer)}
-      />
+      <div className="w-100 h-100">
+        <Graph
+          nodes={layerElements}
+          edges={linkElements}
+          onLayerAdd={layer => this.addLayer(layer)}
+        />
+      </div>
     );
   }
 }

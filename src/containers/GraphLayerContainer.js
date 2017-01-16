@@ -37,7 +37,6 @@ class GraphLayerContainer extends Component {
     const styles = {
       top: this.props.y,
       left: this.props.x,
-      cursor: 'pointer',
       opacity: name === '_temp' ? 0.5 : 1,
       marginLeft: -width / 2,
       marginTop: -height / 2,
@@ -46,7 +45,7 @@ class GraphLayerContainer extends Component {
     return (
       connectDropTarget(
         <div 
-          className="dib absolute pointer z-1 w3 h3" style={styles}>
+          className="dib absolute z-1 w3 h3" style={styles}>
           <Layer {...this.props}/>
         </div>
       )
